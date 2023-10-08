@@ -1,0 +1,26 @@
+A |B,C
+B 0.28333 2
+c 0.28333 2
+B |C
+C 0.2833 1
+C |A
+A 0.28333 1
+
+
+A |B,C
+A 0.28333 1
+B 0.28333 2
+B |C
+C 0.28333 2
+C 0.2833 1
+C |A
+
+Job#2
+A newRank B,C
+B newRank C
+C newRank A
+
+job#3
+pagerank A
+pagerank B
+pagerank C
