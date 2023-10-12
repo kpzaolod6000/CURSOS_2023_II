@@ -1,0 +1,59 @@
+* Creacion de un entorno de Red/
+
+Este módulo incluye las siguientes secciones:
+
+1.necesidad de arquitectura
+2.creación de un entorno de red
+3.conexión del entorno de red a Internet
+4.protección de su entorno de red
+
+Objetivos:
+
+ * explicar el rol básico de una nube virtual privada (VPC) en la red de la nube de Amazon Web Services (AWS)
+
+ •identificar cómo conectar su entorno de red de AWS a Internet
+ •describir cómo aislar los recursos dentro de su entorno de red de AWS
+ •crear una VPC con subredes, una gateway de Internet, tablas de enrutamiento y un grupo de seguridad
+
+
+Seccion 1: Necesidad de Arquitectura - redes como parte de una arquitectura mayor
+Seccion 2: Creacion de un Entorno de red de AWS
+  -Amazon VPC es un seccion aislada de forma lógica de la nube de aws donde puede lanzar recursos de AWS en una red virtual que usted defina
+    Direccion IP -> Subredes -> Reglas de Direccionamiento -> Configuracion de la Red -> Reglas de seguridad
+
+    También puede personalizar la configuración de red de la VPC. Por ejemplo, puede crear una subred pública para los servidores web que tengan acceso a Internet público. También puede colocar sus sistemas de backend(como los servidores de aplicaciones o bases de datos) en una subred privada sin acceso a Internet público
+    Capas de seguridad que inclueyen grupos de seguridad y listas de control de acceso a la red (ACL de red) para controlar el acceso a las instancias de Amazon Elastic Compute Cloud (EC2).
+  
+  - Implementacion de la VPC
+      Es posible implementar una VPC en cualquier region de AWS
+      Una VPC abarca todas las zonas de disponibilidad de una región, de modo que puede alojar recursos compatibles desde cualquier zona de disponibilidad dentro de su región
+    
+    Direcciones de dominio sinclases CIDR 
+      Cuando crea una VPC, proporciona el conjunto de direcciones IP privadas que desea que utilicen las instancias de la VPC. Este conjunto de direcciones se especifica como un bloque de direccionamiento entre dominios sin clases (CIDR), por ejemplo, 10.0.0.0/16. Se trata del bloque de CIDR principal de la VPC. Puede asignar tamaños de bloque de entre /28 (16 direcciones IP) y /16 (65536 direcciones IP).
+      De forma predeterminada, todas las VPC y las subredes deben tener bloques de CIDR IPv4. Este comportamiento no se puede modificar. De forma opcional, puede asociar un bloque de CIDR IPv6 a su VPC
+      Su VPC puede funcionar en modo de pila doble, lo que implica que los recursos se pueden comunicar mediante IPv4, IPv6 o ambos.
+
+    Subredes: division de su VPC 
+
+      Puede dividir una VPC en una subred o más. Una subred es un segmento o una partición del intervalo de direcciones IP de una VPC, donde se puede asignar un grupo de recursos. Es importante recordar que las subredes no son límites de aislamiento en torno a su aplicación. En cambio, son contenedores para políticas de direccionamiento,
+      
+      Cuando se crea una subred, se debe especificar el bloque de CIDR que le corresponde, el cual es un subconjunto del bloque de CIDR de la VPC. Los bloques de CIDR de las subredes no pueden superponerse
+
+      Aunque cada subred debe estar dentro de una zona de disponibilidad por coMpleto y no puede abarcar zonas, cada zona de disponibilidad puede tener una o más subredes.
+      Como las subredes de la VPC se asignan a zonas de disponibilidad específicas, la ubicación de las subredes implica una forma de garantizar que las instancias de Amazon EC2 se distribuyan de forma adecuada entre distintas ubicacione
+      AWS reserva las primeras cuatro direcciones IP y la última del bloque de CIDR de cada subred. Por ejemplo, en una subred con el bloque de CIDR10.0.0.0/24, AWS reserva las cincosiguientes direcciones IP para sus respectivos usos:
+      •10.0.0.0: dirección de red
+      •10.0.0.1: enrutador local de la VPC
+      •10.0.0.2: resolución del sistema de nombres de dominio (DNS)
+      •10.0.0.3: uso futuro
+      •10.0.0.255: dirección de transmisión de la redes
+
+
+    Practicas recomendadas para el diseño de VPC
+      tenga en cuenta los siguientes principios universales para el diseño de redes:
+      •Cree una subred por zona de disponibilidad utilizable por cada grupo de alojamientos que tenga requisitos de direccionamiento exclusivos.
+      •Divida el intervalo de red de la VPC de manera equitativa entre todas las zonas de disponibilidad utilizables en una región.
+      •No asigne todas las direcciones de red a la vez. En cambio, asegúrese de reservar un espacio de direcciones para su uso en el futuro.
+      •Ajuste el tamaño del CIDR de su VPC y las subredes de modo que admitan un crecimiento significativo de las cargas de trabajo esperadas.
+      •Asegúrese de que el intervalo de red de VPC (bloque de CIDR) no se superponga con los demás intervalos de red privada de su organización
+
